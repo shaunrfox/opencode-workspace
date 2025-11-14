@@ -1,0 +1,278 @@
+# OpenCode Workspace
+
+Local LLM development environment using OpenCode + Ollama with an open-source Panda CSS marketplace for front-end development at Cetec.
+
+## Overview
+
+This repository provides:
+
+1. **Local LLM Infrastructure**: OpenCode configured with Ollama backend running 3 specialized models
+2. **Panda CSS Marketplace**: Open-source skills and agents for Panda CSS development workflows
+3. **Development Environment**: Optimized for Apple Silicon (M3 Max, 36GB RAM)
+
+## Quick Start
+
+### Start Ollama Service
+
+```bash
+./scripts/start-ollama.sh
+```
+
+### Use OpenCode with Local LLMs
+
+```bash
+opencode
+```
+
+OpenCode will connect to Ollama at `http://127.0.0.1:11434/v1` and use the configured models.
+
+### Use Panda CSS Marketplace
+
+Skills and agents are available in `.opencode/`. Reference them in prompts:
+
+```
+"Using the panda-setup-config skill, help me set up Panda CSS"
+```
+
+See `.opencode/README.md` for complete documentation.
+
+## Local LLM Models
+
+| Model | Purpose | Size | Context |
+|-------|---------|------|---------|
+| **qwen2.5-coder:7b** | Primary coding model | 4.7GB | 32K |
+| **deepseek-coder-v2:16b** | Fast iteration | 9GB | 16K |
+| **llama3.1:8b-instruct** | Tool calling | 4.7GB | 8K |
+
+### Model Selection
+
+The default model is **qwen2.5-coder:7b**. Configure in `~/.config/opencode/opencode.json` or use:
+
+```bash
+opencode --model ollama/deepseek-coder-v2:16b
+```
+
+## Panda CSS Marketplace
+
+### Skills Available
+
+- **panda-setup-config**: Initial setup and configuration
+- **panda-token-architecture**: Design token systems
+- **panda-recipe-patterns**: Create component recipes
+- **panda-component-impl**: Implement React components
+- **panda-create-stories**: Storybook documentation
+- **panda-form-architecture**: Build form components
+- **panda-review-component**: Audit components
+
+### Agent Available
+
+- **panda-architect**: Autonomous agent for complex Panda CSS work
+
+### Usage Examples
+
+```bash
+# Use a skill
+opencode chat "Using panda-setup-config, set up Panda CSS with strictTokens"
+
+# Use the agent
+opencode chat "Panda architect: create a complete token system"
+```
+
+See `.opencode/README.md` for detailed skill and agent documentation.
+
+## Project Structure
+
+```
+.
+├── .opencode/                 # OpenCode marketplace
+│   ├── README.md             # Marketplace documentation
+│   ├── skills/               # 7 Panda CSS skills
+│   └── agents/               # Panda architect agent
+├── configs/                   # Configuration files
+│   └── opencode-global.json  # OpenCode config (backup)
+├── docs/                      # Documentation
+│   ├── opencode-setup.md     # Setup instructions
+│   └── plans/                # Implementation plans
+├── scripts/                   # Utility scripts
+│   ├── start-ollama.sh       # Start Ollama service
+│   └── download-models.sh    # Download LLM models
+├── tests/                     # Test scripts
+│   └── test-model-basic.sh   # Basic model tests
+└── logs/                      # Log files
+
+Global Config: ~/.config/opencode/opencode.json
+```
+
+## Configuration
+
+### OpenCode Configuration
+
+Located at `~/.config/opencode/opencode.json`:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/qwen2.5-coder:7b",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      },
+      "models": {
+        "qwen2.5-coder:7b": { "name": "Qwen2.5 Coder 7B (primary)" },
+        "deepseek-coder-v2:16b": { "name": "DeepSeek Coder V2 16B (fast)" },
+        "llama3.1:8b-instruct": { "name": "Llama 3.1 8B (tools)" }
+      }
+    }
+  }
+}
+```
+
+### Ollama Configuration
+
+Ollama runs on `http://127.0.0.1:11434` with models stored in `~/.ollama/models/`.
+
+## System Requirements
+
+- **OS**: macOS (tested) or Linux
+- **RAM**: 16GB minimum, 32GB+ recommended
+- **Disk**: ~20GB for models
+- **Ollama**: v0.12.11+
+- **OpenCode**: v1.0.65+
+- **Node.js**: v25.2.0+
+
+## Documentation
+
+- **Setup Guide**: `docs/opencode-setup.md` - Complete setup instructions
+- **Marketplace Docs**: `.opencode/README.md` - Skills and agent documentation
+- **Implementation Plan**: `docs/plans/2025-11-14-local-llm-opencode-setup.md`
+- **Project Draft**: `docs/project-draft.md` - Original planning document
+
+## Common Commands
+
+### Ollama
+
+```bash
+# Start Ollama
+./scripts/start-ollama.sh
+
+# Check status
+ollama list
+
+# Stop Ollama
+pkill ollama
+
+# Pull a model
+ollama pull qwen2.5-coder:7b
+```
+
+### OpenCode
+
+```bash
+# Start interactive chat
+opencode
+
+# One-off command
+opencode chat "explain this code"
+
+# Use specific model
+opencode --model ollama/deepseek-coder-v2:16b
+
+# Show config
+cat ~/.config/opencode/opencode.json
+```
+
+### Development
+
+```bash
+# Download all models
+./scripts/download-models.sh
+
+# Test models
+./tests/test-model-basic.sh
+
+# View logs
+tail -f logs/ollama-service.log
+```
+
+## Troubleshooting
+
+### Ollama not responding
+
+```bash
+# Check if running
+ps aux | grep ollama
+
+# Restart
+pkill ollama && ./scripts/start-ollama.sh
+
+# Check logs
+tail -f logs/ollama-service.log
+```
+
+### OpenCode connection issues
+
+```bash
+# Verify Ollama endpoint
+curl http://127.0.0.1:11434/api/tags
+
+# Check OpenCode config
+cat ~/.config/opencode/opencode.json
+
+# Restart with fresh config
+rm ~/.config/opencode/opencode.json
+cp configs/opencode-global.json ~/.config/opencode/opencode.json
+```
+
+### Model not found
+
+```bash
+# List available models
+ollama list
+
+# Pull missing model
+ollama pull qwen2.5-coder:7b
+```
+
+## Performance Benchmarks
+
+Tested on M3 Max (16-core CPU, 40-core GPU, 36GB RAM):
+
+| Model | Speed | Quality | Use Case |
+|-------|-------|---------|----------|
+| Qwen2.5 Coder 7B | ~30 tok/s | Excellent | Primary development |
+| DeepSeek Coder 16B | ~15 tok/s | Very Good | Fast iterations |
+| Llama 3.1 8B | ~25 tok/s | Good | Tool usage |
+
+## Next Steps
+
+### Phase 1: Basic Testing ✅
+- [x] Install Ollama and OpenCode
+- [x] Download models
+- [x] Test basic functionality
+- [x] Create marketplace structure
+- [x] Port Panda CSS skills and agent
+
+### Phase 2: Testing Skills 🚧
+- [ ] Test each skill with local LLMs
+- [ ] Validate agent workflows
+- [ ] Refine prompts if needed
+
+### Phase 3: Enhancement
+- [ ] Add slash command shortcuts
+- [ ] Create example Panda CSS project
+- [ ] Add more design system skills
+- [ ] Performance optimization
+
+## Credits
+
+- **OpenCode**: [https://opencode.ai](https://opencode.ai)
+- **Ollama**: [https://ollama.ai](https://ollama.ai)
+- **Original Marketplace**: [okshaun-claude-marketplace](https://github.com/shaunrfox/okshaun-claude-marketplace)
+- **Panda CSS**: [https://panda-css.com](https://panda-css.com)
+
+## License
+
+MIT License - see LICENSE file for details
