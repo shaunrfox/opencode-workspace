@@ -1,0 +1,17 @@
+{
+  "name": "opencode-workspace",
+  "version": "1.0.0",
+  "description": "Local LLM development environment using OpenCode + Ollama",
+  "type": "module",
+  "scripts": {
+    "start:ollama": "node scripts/start-ollama.js",
+    "stop:ollama": "node scripts/stop-ollama.js",
+    "download:models": "node scripts/download-models.js",
+    "setup": "npm run download:models"
+  },
+  "devDependencies": {
+    "execa": "^8.0.1",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1"
+  }
+}

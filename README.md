@@ -12,10 +12,16 @@ This repository provides:
 
 ## Quick Start
 
+### Setup (Download Models)
+
+```bash
+npm run setup
+```
+
 ### Start Ollama Service
 
 ```bash
-./scripts/start-ollama.sh
+npm run start:ollama
 ```
 
 ### Use OpenCode with Local LLMs
@@ -25,6 +31,12 @@ opencode
 ```
 
 OpenCode will connect to Ollama at `http://127.0.0.1:11434/v1` and use the configured models.
+
+### Stop Ollama Service
+
+```bash
+npm run stop:ollama
+```
 
 ### Use Panda CSS Marketplace
 
@@ -93,11 +105,11 @@ See `.opencode/README.md` for detailed skill and agent documentation.
 ├── docs/                      # Documentation
 │   ├── opencode-setup.md     # Setup instructions
 │   └── plans/                # Implementation plans
-├── scripts/                   # Utility scripts
-│   ├── start-ollama.sh       # Start Ollama service
-│   └── download-models.sh    # Download LLM models
-├── tests/                     # Test scripts
-│   └── test-model-basic.sh   # Basic model tests
+├── scripts/                   # Node.js utility scripts
+│   ├── start-ollama.js       # Start Ollama service
+│   ├── stop-ollama.js        # Stop Ollama service
+│   └── download-models.js   # Download LLM models
+├── package.json               # npm configuration and scripts
 └── logs/                      # Log files
 
 Global Config: ~/.config/opencode/opencode.json
@@ -141,7 +153,8 @@ Ollama runs on `http://127.0.0.1:11434` with models stored in `~/.ollama/models/
 - **Disk**: ~20GB for models
 - **Ollama**: v0.12.11+
 - **OpenCode**: v1.0.65+
-- **Node.js**: v25.2.0+
+- **Node.js**: v25.2.0+ (for npm scripts)
+- **npm**: v10.0.0+
 
 ## Documentation
 
@@ -152,19 +165,25 @@ Ollama runs on `http://127.0.0.1:11434` with models stored in `~/.ollama/models/
 
 ## Common Commands
 
-### Ollama
+### Ollama Management
 
 ```bash
-# Start Ollama
-./scripts/start-ollama.sh
+# Start Ollama service
+npm run start:ollama
 
-# Check status
+# Stop Ollama service
+npm run stop:ollama
+
+# Download all models
+npm run download:models
+
+# Complete setup (download models)
+npm run setup
+
+# Check available models
 ollama list
 
-# Stop Ollama
-pkill ollama
-
-# Pull a model
+# Pull a specific model
 ollama pull qwen2.5-coder:7b
 ```
 
@@ -187,14 +206,14 @@ cat ~/.config/opencode/opencode.json
 ### Development
 
 ```bash
-# Download all models
-./scripts/download-models.sh
+# Install dependencies
+npm install
 
-# Test models
-./tests/test-model-basic.sh
-
-# View logs
+# View logs (if available)
 tail -f logs/ollama-service.log
+
+# List all available npm scripts
+npm run
 ```
 
 ## Troubleshooting
@@ -206,7 +225,7 @@ tail -f logs/ollama-service.log
 ps aux | grep ollama
 
 # Restart
-pkill ollama && ./scripts/start-ollama.sh
+npm run stop:ollama && npm run start:ollama
 
 # Check logs
 tail -f logs/ollama-service.log
@@ -254,6 +273,7 @@ Tested on M3 Max (16-core CPU, 40-core GPU, 36GB RAM):
 - [x] Test basic functionality
 - [x] Create marketplace structure
 - [x] Port Panda CSS skills and agent
+- [x] Convert scripts to npm/Node.js
 
 ### Phase 2: Testing Skills 🚧
 - [ ] Test each skill with local LLMs
@@ -270,9 +290,24 @@ Tested on M3 Max (16-core CPU, 40-core GPU, 36GB RAM):
 
 - **OpenCode**: [https://opencode.ai](https://opencode.ai)
 - **Ollama**: [https://ollama.ai](https://ollama.ai)
-- **Original Marketplace**: [okshaun-claude-marketplace](https://github.com/shaunrfox/okshaun-claude-marketplace)
+- **Node.js**: [https://nodejs.org](https://nodejs.org)
+- **npm**: [https://www.npmjs.com](https://www.npmjs.com)
+- **Original Marketplace**: [okshaun-claude-marketplace](https://github.com/shaunfox/okshaun-claude-marketplace)
 - **Panda CSS**: [https://panda-css.com](https://panda-css.com)
 
 ## License
 
 MIT License - see LICENSE file for details
+
+---
+
+## npm Scripts Reference
+
+| Script | Description |
+|--------|-------------|
+| `npm run start:ollama` | Start Ollama service in background |
+| `npm run stop:ollama` | Stop Ollama service |
+| `npm run download:models` | Download all required LLM models |
+| `npm run setup` | Complete setup (downloads models) |
+
+All scripts include progress indicators and error handling for a better developer experience.
