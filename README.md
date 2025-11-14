@@ -12,6 +12,12 @@ This repository provides:
 
 ## Quick Start
 
+### Install package dependencies
+
+From package root, run `npm install`
+
+_This installs the package dependencies, then installs ollama and opencode._
+
 ### Complete Setup
 
 ```bash
@@ -19,6 +25,7 @@ npm run setup
 ```
 
 This will:
+
 1. Install Ollama (if not already installed)
 2. Download the recommended LLM models
 
@@ -66,11 +73,11 @@ See `.opencode/README.md` for complete documentation.
 
 ## Local LLM Models
 
-| Model | Purpose | Size | Context |
-|-------|---------|------|---------|
-| **qwen2.5-coder:7b** | Primary coding model | 4.7GB | 32K |
-| **deepseek-coder-v2:16b** | Fast iteration | 9GB | 16K |
-| **llama3.1** | Tool calling specialist | 4.9GB | 8K |
+| Model                     | Purpose                 | Size  | Context |
+| ------------------------- | ----------------------- | ----- | ------- |
+| **qwen2.5-coder:7b**      | Primary coding model    | 4.7GB | 32K     |
+| **deepseek-coder-v2:16b** | Fast iteration          | 9GB   | 16K     |
+| **llama3.1**              | Tool calling specialist | 4.9GB | 8K      |
 
 ### Model Selection
 
@@ -296,15 +303,16 @@ ollama pull qwen2.5-coder:7b
 
 Tested on M3 Max (16-core CPU, 40-core GPU, 36GB RAM):
 
-| Model | Speed | Quality | Use Case |
-|-------|-------|---------|----------|
-| Qwen2.5 Coder 7B | ~30 tok/s | Excellent | Primary development |
-| DeepSeek Coder 16B | ~15 tok/s | Very Good | Fast iterations |
-| Llama 3.1 8B | ~25 tok/s | Good | Tool usage |
+| Model              | Speed     | Quality   | Use Case            |
+| ------------------ | --------- | --------- | ------------------- |
+| Qwen2.5 Coder 7B   | ~30 tok/s | Excellent | Primary development |
+| DeepSeek Coder 16B | ~15 tok/s | Very Good | Fast iterations     |
+| Llama 3.1 8B       | ~25 tok/s | Good      | Tool usage          |
 
 ## Next Steps
 
 ### Phase 1: Basic Testing ✅
+
 - [x] Install Ollama and OpenCode
 - [x] Download models
 - [x] Test basic functionality
@@ -314,11 +322,13 @@ Tested on M3 Max (16-core CPU, 40-core GPU, 36GB RAM):
 - [x] Add automated Ollama installation
 
 ### Phase 2: Testing Skills 🚧
+
 - [ ] Test each skill with local LLMs
 - [ ] Validate agent workflows
 - [ ] Refine prompts if needed
 
 ### Phase 3: Enhancement
+
 - [ ] Add slash command shortcuts
 - [ ] Create example Panda CSS project
 - [ ] Add more design system skills
@@ -341,15 +351,15 @@ MIT License - see LICENSE file for details
 
 ## npm Scripts Reference
 
-| Script | Description |
-|--------|-------------|
-| `npm run install:ollama` | Install Ollama (macOS/Linux auto-detection) |
-| `npm run start:ollama` | Start Ollama service in background |
-| `npm run stop:ollama` | Stop Ollama service |
-| `npm run check:models` | List currently installed models |
-| `npm run download:models` | Interactive model selection and download |
-| `npm run setup` | Complete setup (install Ollama + download models) |
-| `npm test` | Run test suite with mocked downloads |
-| `npm run test:watch` | Run tests in watch mode |
+| Script                    | Description                                       |
+| ------------------------- | ------------------------------------------------- |
+| `npm run install:ollama`  | Install Ollama (macOS/Linux auto-detection)       |
+| `npm run start:ollama`    | Start Ollama service in background                |
+| `npm run stop:ollama`     | Stop Ollama service                               |
+| `npm run check:models`    | List currently installed models                   |
+| `npm run download:models` | Interactive model selection and download          |
+| `npm run setup`           | Complete setup (install Ollama + download models) |
+| `npm test`                | Run test suite with mocked downloads              |
+| `npm run test:watch`      | Run tests in watch mode                           |
 
 All scripts include progress indicators and error handling for a better developer experience.
