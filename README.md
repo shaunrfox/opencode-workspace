@@ -12,10 +12,26 @@ This repository provides:
 
 ## Quick Start
 
-### Setup (Download Models)
+### Complete Setup
 
 ```bash
 npm run setup
+```
+
+This will:
+1. Install Ollama (if not already installed)
+2. Download the recommended LLM models
+
+### Manual Setup Steps
+
+If you prefer to install components separately:
+
+```bash
+# Install Ollama
+npm run install:ollama
+
+# Download models interactively
+npm run download:models
 ```
 
 ### Start Ollama Service
@@ -54,9 +70,13 @@ See `.opencode/README.md` for complete documentation.
 |-------|---------|------|---------|
 | **qwen2.5-coder:7b** | Primary coding model | 4.7GB | 32K |
 | **deepseek-coder-v2:16b** | Fast iteration | 9GB | 16K |
-| **llama3.1:8b-instruct** | Tool calling | 4.7GB | 8K |
+| **llama3.1** | Tool calling specialist | 4.9GB | 8K |
 
 ### Model Selection
+
+Models can be selected interactively when running `npm run download:models`.
+
+The default model is **qwen2.5-coder:7b**. Configure in `~/.config/opencode/opencode.json` or use:
 
 The default model is **qwen2.5-coder:7b**. Configure in `~/.config/opencode/opencode.json` or use:
 
@@ -106,8 +126,10 @@ See `.opencode/README.md` for detailed skill and agent documentation.
 │   ├── opencode-setup.md     # Setup instructions
 │   └── plans/                # Implementation plans
 ├── scripts/                   # Node.js utility scripts
+│   ├── install-ollama.js     # Install Ollama
 │   ├── start-ollama.js       # Start Ollama service
 │   ├── stop-ollama.js        # Stop Ollama service
+│   ├── check-models.js       # Check installed models
 │   └── download-models.js   # Download LLM models
 ├── package.json               # npm configuration and scripts
 └── logs/                      # Log files
@@ -151,7 +173,7 @@ Ollama runs on `http://127.0.0.1:11434` with models stored in `~/.ollama/models/
 - **OS**: macOS (tested) or Linux
 - **RAM**: 16GB minimum, 32GB+ recommended
 - **Disk**: ~20GB for models
-- **Ollama**: v0.12.11+
+- **Ollama**: Auto-installed via `npm run install:ollama` (v0.12.11+)
 - **OpenCode**: v1.0.65+
 - **Node.js**: v25.2.0+ (for npm scripts)
 - **npm**: v10.0.0+
@@ -168,22 +190,28 @@ Ollama runs on `http://127.0.0.1:11434` with models stored in `~/.ollama/models/
 ### Ollama Management
 
 ```bash
+# Install Ollama (if not already installed)
+npm run install:ollama
+
 # Start Ollama service
 npm run start:ollama
 
 # Stop Ollama service
 npm run stop:ollama
 
-# Download all models
+# Check installed models
+npm run check:models
+
+# Download models (interactive selection)
 npm run download:models
 
-# Complete setup (download models)
+# Complete setup (install + download models)
 npm run setup
 
-# Check available models
+# Check available models (alternative)
 ollama list
 
-# Pull a specific model
+# Pull a specific model (alternative)
 ollama pull qwen2.5-coder:7b
 ```
 
@@ -208,6 +236,15 @@ cat ~/.config/opencode/opencode.json
 ```bash
 # Install dependencies
 npm install
+
+# Check installed models
+npm run check:models
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
 
 # View logs (if available)
 tail -f logs/ollama-service.log
@@ -274,6 +311,7 @@ Tested on M3 Max (16-core CPU, 40-core GPU, 36GB RAM):
 - [x] Create marketplace structure
 - [x] Port Panda CSS skills and agent
 - [x] Convert scripts to npm/Node.js
+- [x] Add automated Ollama installation
 
 ### Phase 2: Testing Skills 🚧
 - [ ] Test each skill with local LLMs
@@ -305,9 +343,13 @@ MIT License - see LICENSE file for details
 
 | Script | Description |
 |--------|-------------|
+| `npm run install:ollama` | Install Ollama (macOS/Linux auto-detection) |
 | `npm run start:ollama` | Start Ollama service in background |
 | `npm run stop:ollama` | Stop Ollama service |
-| `npm run download:models` | Download all required LLM models |
-| `npm run setup` | Complete setup (downloads models) |
+| `npm run check:models` | List currently installed models |
+| `npm run download:models` | Interactive model selection and download |
+| `npm run setup` | Complete setup (install Ollama + download models) |
+| `npm test` | Run test suite with mocked downloads |
+| `npm run test:watch` | Run tests in watch mode |
 
 All scripts include progress indicators and error handling for a better developer experience.
