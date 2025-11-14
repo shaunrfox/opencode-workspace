@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(superpowers:writing-plans)",
+      "Bash(mkdir:*)",
+      "Skill(superpowers:subagent-driven-development)",
+      "Bash(ollama:*)",
+      "Bash(logs/ollama-install.log)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(test:*)",
+      "Bash(shellcheck:*)",
+      "Bash(bash -n:*)",
+      "Bash(brew search:*)",
+      "Bash(brew info:*)",
+      "Bash(opencode:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
